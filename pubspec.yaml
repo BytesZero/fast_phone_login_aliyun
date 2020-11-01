@@ -3,6 +3,7 @@ description: Flutter 一键登录 支持三大运营商(阿里云版)
 version: 0.0.1
 author: Zero <zhengsonglan001@gmail.com>
 homepage: https://github.com/yy1300326388
+publish_to: https://pub.dev
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
