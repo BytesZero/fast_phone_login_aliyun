@@ -30,7 +30,7 @@
                 android:layout_centerInParent="true"
                 android:textSize="18sp"
                 android:textColor="#ffffffff"
-                android:text="自定义标题"/>
+                android:text="@string/custom_title"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="70dp"
-                android:text="自定义Slogan"
+                android:text="@string/custom_slogan"
                 android:textColor="#FF000000"
                 android:textSize="20sp" />
 
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="350dp"
-                android:text="切换到短信登录页面"
+                android:text="@string/switch_msg"
                 android:textSize="18sp" />
 
         </RelativeLayout>

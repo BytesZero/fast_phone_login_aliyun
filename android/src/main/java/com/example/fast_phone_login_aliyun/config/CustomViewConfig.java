@@ -39,8 +39,6 @@ public class CustomViewConfig extends BaseUIConfig {
                     @Override
                     public void onClick(Context context) {
                         Toast.makeText(mContext, "切换到短信登录方式", Toast.LENGTH_SHORT).show();
-//                        Intent pIntent = new Intent(mActivity, MessageActivity.class);
-//                        mActivity.startActivityForResult(pIntent, 1002);
                         mAuthHelper.quitLoginPage();
                     }
                 }).build());
@@ -60,7 +58,6 @@ public class CustomViewConfig extends BaseUIConfig {
                     @Override
                     public void onClick(Context context) {
                         mAuthHelper.quitLoginPage();
-                        mActivity.finish();
                     }
                 }).build());
 

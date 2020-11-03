@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.fast_phone_login_aliyun.R;
 import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.AuthUIControlClickListener;
@@ -39,7 +40,6 @@ public class FullPortConfig extends BaseUIConfig {
                         case ResultCode.CODE_ERROR_USER_CANCEL:
                             Log.e(TAG, "点击了授权页默认返回按钮");
                             mAuthHelper.quitLoginPage();
-                            mActivity.finish();
                             break;
                         //点击授权页默认样式的切换其他登录方式 会关闭授权页
                         //如果不希望关闭授权页那就setSwitchAccHidden(true)隐藏默认的  通过自定义view添加自己的
@@ -51,7 +51,7 @@ public class FullPortConfig extends BaseUIConfig {
                         //通过此回调自己设置toast
                         case ResultCode.CODE_ERROR_USER_LOGIN_BTN:
                             if (!jsonObj.getBoolean("isChecked")) {
-                                Toast.makeText(mContext, "自定义", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, R.string.custom_toast, Toast.LENGTH_SHORT).show();
                             }
                             break;
                         //checkbox状态改变触发此回调

@@ -57,7 +57,6 @@ public class DialogBottomConfig extends BaseUIConfig {
                             @Override
                             public void onClick(View v) {
                                 mAuthHelper.quitLoginPage();
-                                mActivity.finish();
                             }
                         });
                     }

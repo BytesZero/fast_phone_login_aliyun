@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.fast_phone_login_aliyun.R;
 import com.example.fast_phone_login_aliyun.utils.AppUtils;
 import com.example.fast_phone_login_aliyun.utils.Constants;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
@@ -51,11 +52,11 @@ public abstract class BaseUIConfig {
 
     protected View initSwitchView(int marginTop) {
         TextView switchTV = new TextView(mActivity);
-        RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, AppUtils.px2dp(mActivity, 50));
+        RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, AppUtils.dp2px(mActivity, 50));
         //一键登录按钮默认marginTop 270dp
-        mLayoutParams.setMargins(0, AppUtils.px2dp(mContext, marginTop), 0, 0);
+        mLayoutParams.setMargins(0, AppUtils.dp2px(mContext, marginTop), 0, 0);
         mLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        switchTV.setText("切换到短信登录");
+        switchTV.setText(R.string.switch_msg);
         switchTV.setTextColor(Color.BLACK);
         switchTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13.0F);
         switchTV.setLayoutParams(mLayoutParams);

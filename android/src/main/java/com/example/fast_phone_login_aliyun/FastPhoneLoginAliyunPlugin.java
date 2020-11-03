@@ -103,7 +103,9 @@ public class FastPhoneLoginAliyunPlugin implements FlutterPlugin, ActivityAware,
           if (ResultCode.CODE_SUCCESS.equals(tokenRet.getCode())) {
             Log.i(TAG, "获取token成功：" + tokenRet.getToken());
             mPhoneNumberAuthHelper.setAuthListener(null);
+            mPhoneNumberAuthHelper.quitLoginPage();
           }
+
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -128,7 +130,6 @@ public class FastPhoneLoginAliyunPlugin implements FlutterPlugin, ActivityAware,
       }
     };
     mPhoneNumberAuthHelper = PhoneNumberAuthHelper.getInstance(activity, mTokenResultListener);
-//    mPhoneNumberAuthHelper.getReporter().setLoggerEnable(true);
     mPhoneNumberAuthHelper.setAuthSDKInfo(secretInfo);
   }
 
