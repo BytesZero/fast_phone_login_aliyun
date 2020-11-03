@@ -1,3 +1,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.example.fast_phone_login_aliyun">
+    package="com.example.fast_phone_login_aliyun">
+
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 访问网络-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 检查 Wi-Fi 网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 检查网络状态 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 改变网络状态-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 文件写入-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 改变Wi-Fi 状态 -->
+
+    <application>
+        <!--联通电信授权页-->
+        <activity
+            android:name="com.mobile.auth.gatewayauth.LoginAuthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/authsdk_activity_dialog" />
+
+        <!--移动授权页-->
+        <activity
+            android:name="com.cmic.sso.sdk.activity.LoginAuthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <!--协议页面webview-->
+        <activity
+            android:name="com.mobile.auth.gatewayauth.activity.AuthWebVeiwActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="behind" />
+    </application>
+
+
 </manifest>
