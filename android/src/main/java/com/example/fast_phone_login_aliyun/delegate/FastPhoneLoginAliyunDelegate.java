@@ -98,11 +98,13 @@ public class FastPhoneLoginAliyunDelegate {
      */
     public void getLoginToken(MethodCall call, MethodChannel.Result result) {
         this.pendingResult = result;
+        // 解析参数
         int pageStyle = call.argument("pageStyle");
         int timeout = call.argument("timeout");
+        // 设置监听
+        mPhoneNumberAuthHelper.setAuthListener(mTokenResultListener);
         /// 配置页面 UI
         mUIConfig = BaseUIConfig.init(pageStyle, activity, mPhoneNumberAuthHelper);
-        mPhoneNumberAuthHelper = PhoneNumberAuthHelper.getInstance(activity, mTokenResultListener);
         mUIConfig.configAuthPage();
         // 拉起授权页
         mPhoneNumberAuthHelper.getLoginToken(activity, timeout);
