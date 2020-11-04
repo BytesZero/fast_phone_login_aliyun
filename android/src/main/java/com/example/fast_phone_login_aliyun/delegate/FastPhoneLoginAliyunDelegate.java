@@ -43,7 +43,7 @@ public class FastPhoneLoginAliyunDelegate {
      */
     public void init(MethodCall call, MethodChannel.Result result) {
         this.pendingResult = result;
-        String secret = call.argument("secret");
+        String secret = call.argument("androidSecret");
         if (TextUtils.isEmpty(secret)) {
             result.error("-1000", "secret is not null", "secret is not null");
             return;

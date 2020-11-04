@@ -12,9 +12,9 @@ class FastPhoneLoginAliyun {
 
   /// 初始化
   /// [secret] 秘钥（阿里云【号码认证服务】=>【认证方案管理】=>【iOS/Android】=>【操作--秘钥】）
-  static Future<bool> init({String secret}) async {
-    final bool initStatus =
-        await _channel.invokeMethod('init', {'secret': secret});
+  static Future<bool> init({String androidSecret, String iOSsecret}) async {
+    final bool initStatus = await _channel.invokeMethod(
+        'init', {'androidSecret': androidSecret, 'iOSsecret': iOSsecret});
     return initStatus;
   }
 
