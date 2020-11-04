@@ -21,64 +21,67 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
-/** FastPhoneLoginAliyunPlugin */
+/**
+ * FastPhoneLoginAliyunPlugin
+ */
 public class FastPhoneLoginAliyunPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler {
 
-  private static final String TAG = FastPhoneLoginAliyunPlugin.class.getSimpleName();
-  private static final String CHANNEL = "fast_phone_login_aliyun";
-  private MethodChannel channel;
-  private FastPhoneLoginAliyunDelegate delegate;
+    private static final String TAG = FastPhoneLoginAliyunPlugin.class.getSimpleName();
+    private static final String CHANNEL = "fast_phone_login_aliyun";
+    private MethodChannel channel;
+    private FastPhoneLoginAliyunDelegate delegate;
 
-  @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    setupEngine(flutterPluginBinding);
-  }
-
-  private void setupEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), CHANNEL);
-    channel.setMethodCallHandler(this);
-  }
-
-  @Override
-  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
-    }else  if (call.method.equals("init")) {
-        this.delegate.init(call, result);
-    } else  if (call.method.equals("getLoginToken")) {
-      this.delegate.getLoginToken(call, result);
-    }else {
-      result.notImplemented();
+    @Override
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+        setupEngine(flutterPluginBinding);
     }
-  }
 
-  @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    channel.setMethodCallHandler(null);
-  }
+    private void setupEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+        channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), CHANNEL);
+        channel.setMethodCallHandler(this);
+    }
+
+    @Override
+    public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+        if (call.method.equals("getPlatformVersion")) {
+            result.success("Android " + android.os.Build.VERSION.RELEASE);
+        } else if (call.method.equals("init")) {
+            this.delegate.init(call, result);
+        } else if (call.method.equals("getLoginToken")) {
+            this.delegate.getLoginToken(call, result);
+        } else if (call.method.equals("checkEnvAvailable")) {
+            this.delegate.checkEnvAvailable(call, result);
+        } else {
+            result.notImplemented();
+        }
+    }
+
+    @Override
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+        channel.setMethodCallHandler(null);
+    }
 
 
-  @Override
-  public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-    this.delegate= new FastPhoneLoginAliyunDelegate(binding.getActivity());
-  }
+    @Override
+    public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
+        this.delegate = new FastPhoneLoginAliyunDelegate(binding.getActivity());
+    }
 
-  @Override
-  public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-    onAttachedToActivity(binding);
-  }
+    @Override
+    public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
+        onAttachedToActivity(binding);
+    }
 
-  @Override
-  public void onDetachedFromActivityForConfigChanges() {
-    onDetachedFromActivity();
-  }
+    @Override
+    public void onDetachedFromActivityForConfigChanges() {
+        onDetachedFromActivity();
+    }
 
 
-
-  @Override
-  public void onDetachedFromActivity() {
-    this.delegate=null;
-  }
+    @Override
+    public void onDetachedFromActivity() {
+        this.delegate = null;
+    }
 
 
 }

@@ -73,7 +73,7 @@ public class DialogBottomConfig extends BaseUIConfig {
                 .setPrivacyState(false)
                 .setCheckboxHidden(true)
 
-                .setLogoImgPath("mytel_app_launcher")
+                .setLogoImgPath("login_app_logo")
                 .setLogoOffsetY(0)
                 .setLogoWidth(42)
                 .setLogoHeight(42)

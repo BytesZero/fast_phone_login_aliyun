@@ -84,7 +84,7 @@ public class CustomViewConfig extends BaseUIConfig {
                 .setVendorPrivacyPrefix("《")
                 .setVendorPrivacySuffix("》")
                 .setPageBackgroundPath("page_background_color")
-                .setLogoImgPath("mytel_app_launcher")
+                .setLogoImgPath("login_app_logo")
                 .setLogBtnBackgroundPath("login_btn_bg")
                 .setScreenOrientation(authPageOrientation)
                 .create());

@@ -81,7 +81,7 @@ public class DialogPortConfig extends BaseUIConfig {
                 .setLogoOffsetY(0)
                 .setLogoWidth(42)
                 .setLogoHeight(42)
-                .setLogoImgPath("mytel_app_launcher")
+                .setLogoImgPath("login_app_logo")
 
                 .setNumFieldOffsetY(unit + 10)
                 .setNumberSize(17)

@@ -14,6 +14,8 @@ import com.mobile.auth.gatewayauth.model.TokenRet;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
+import static com.mobile.auth.gatewayauth.ResultCode.MSG_ERROR_NO_MOBILE_NETWORK_FAIL;
+
 public class FastPhoneLoginAliyunDelegate {
     private static final String TAG = FastPhoneLoginAliyunDelegate.class.getSimpleName();
 
@@ -64,6 +66,12 @@ public class FastPhoneLoginAliyunDelegate {
                         pendingResult.success(tokenRet.getToken());
                     }
 
+                    if (ResultCode.CODE_ERROR_ENV_CHECK_SUCCESS.equals(tokenRet.getCode())) {
+                        Log.i(TAG, "终端支持认证");
+                        // 返回成功
+                        pendingResult.success(true);
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -77,10 +85,11 @@ public class FastPhoneLoginAliyunDelegate {
                     tokenRet = TokenRet.fromJson(s);
                     if (ResultCode.CODE_ERROR_USER_CANCEL.equals(tokenRet.getCode())) {
                         Toast.makeText(activity.getApplicationContext(), "用户取消", Toast.LENGTH_SHORT).show();
-                        pendingResult.error("-300","用户取消","用户取消");
-                    } else {
-                        Toast.makeText(activity.getApplicationContext(), "一键登录失败切换到其他登录方式", Toast.LENGTH_SHORT).show();
-                        pendingResult.error("-200","一键登录失败切换到其他登录方式","一键登录失败切换到其他登录方式");
+                        pendingResult.error(ResultCode.CODE_ERROR_USER_CANCEL,"用户取消","用户取消");
+                    }else if (ResultCode.CODE_ERROR_NO_MOBILE_NETWORK_FAIL.equals(tokenRet.getCode())){
+                        pendingResult.error(ResultCode.CODE_ERROR_NO_MOBILE_NETWORK_FAIL,MSG_ERROR_NO_MOBILE_NETWORK_FAIL,MSG_ERROR_NO_MOBILE_NETWORK_FAIL);
+                    }else {
+                        pendingResult.error(tokenRet.getCode(),"一键登录失败切换到其他登录方式","一键登录失败切换到其他登录方式");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -97,6 +106,10 @@ public class FastPhoneLoginAliyunDelegate {
      * 拉起授权页，并且获取 Token
      */
     public void getLoginToken(MethodCall call, MethodChannel.Result result) {
+        if(mPhoneNumberAuthHelper==null){
+            result.error("-500","请先初始化","请先初始化");
+            return;
+        }
         this.pendingResult = result;
         // 解析参数
         int pageStyle = call.argument("pageStyle");
@@ -108,6 +121,25 @@ public class FastPhoneLoginAliyunDelegate {
         mUIConfig.configAuthPage();
         // 拉起授权页
         mPhoneNumberAuthHelper.getLoginToken(activity, timeout);
+    }
+
+    /**
+     * 检查认证环境
+     * type 1：本机号码校验 2: ⼀键登录
+     * 600024 终端⽀持认证
+     * 600013 系统维护，功能不可⽤
+     */
+    public void checkEnvAvailable(MethodCall call, MethodChannel.Result result) {
+        if(mPhoneNumberAuthHelper==null){
+            result.error("-500","请先初始化","请先初始化");
+            return;
+        }
+        this.pendingResult = result;
+        // 解析参数
+        int type = call.argument("type");
+        // 设置监听
+        mPhoneNumberAuthHelper.setAuthListener(mTokenResultListener);
+        mPhoneNumberAuthHelper.checkEnvAvailable(type);
     }
 
 }

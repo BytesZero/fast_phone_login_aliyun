@@ -104,13 +104,13 @@ public class FullPortConfig extends BaseUIConfig {
 
                 .setLightColor(true)
                 .setWebNavTextSize(20)
-                //图片或者xml的传参方式为不包含后缀名的全称 需要文件需要放在drawable或drawable-xxx目录下 in_activity.xml, mytel_app_launcher.png
+                //图片或者xml的传参方式为不包含后缀名的全称 需要文件需要放在drawable或drawable-xxx目录下 in_activity.xml, login_app_logo.png
                 .setAuthPageActIn("in_activity", "out_activity")
                 .setAuthPageActOut("in_activity", "out_activity")
                 .setVendorPrivacyPrefix("《")
                 .setVendorPrivacySuffix("》")
                 .setPageBackgroundPath("page_background_color")
-                .setLogoImgPath("mytel_app_launcher")
+                .setLogoImgPath("login_app_logo")
                 //一键登录按钮三种状态背景示例login_btn_bg.xml
                 .setLogBtnBackgroundPath("login_btn_bg")
                 .setScreenOrientation(authPageOrientation)

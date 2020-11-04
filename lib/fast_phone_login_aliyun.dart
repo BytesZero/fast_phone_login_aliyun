@@ -29,4 +29,12 @@ class FastPhoneLoginAliyun {
     });
     return token;
   }
+
+  /// 检查认证环境
+  /// [type] 1：本机号码校验 2: ⼀键登录
+  static Future<bool> checkEnvAvailable({int type = 2}) async {
+    final bool checked =
+        await _channel.invokeMethod('checkEnvAvailable', {'type': type});
+    return checked;
+  }
 }
