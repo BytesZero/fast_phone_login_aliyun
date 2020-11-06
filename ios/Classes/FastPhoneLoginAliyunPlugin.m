@@ -36,6 +36,7 @@
   }else  if ([@"checkEnvAvailable" isEqualToString:call.method]) {
     [[TXCommonHandler sharedInstance] checkEnvAvailableWithAuthType:PNSAuthTypeLoginToken complete:^(NSDictionary * _Nonnull resultDic) {
         NSLog(@"检查认证环境结果：%@", resultDic);
+        
     }];
   } else  if ([@"getLoginToken" isEqualToString:call.method]) {
       [[[TXCommonHandler sharedInstance] getReporter]setConsolePrintLoggerEnable:true];
@@ -46,26 +47,9 @@
                                                               button2Title:@"短信登录（隐藏系统导航栏）"
                                                                    target2:self
                                                                  selector2:@selector(gotoSmsControllerAndHiddenNavBar)];
-//      [[TXCommonHandler sharedInstance] debugLoginUIWithController:_viewController model:model complete:^(NSDictionary * _Nonnull resultDic) {
-//                NSLog(@"授权页拉起成功回调：%@", resultDic);
+//      [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:3.0 complete:^(NSDictionary * _Nonnull resultDic) {
+//          NSLog(@"获取LoginToken为后面授权页拉起加个速，加速结果：%@", resultDic);
 //      }];
-//
-//
-//      TXCustomModel *model = [PNSBuildModelUtils buildModelWithStyle:PNSBuildModelStyleAlertPortrait
-//                                                        button1Title:@"短信登录（使用系统导航栏）"
-//                                                             target1:self
-//                                                           selector1:@selector(gotoSmsControllerAndShowNavBar)
-//                                                        button2Title:@"短信登录（隐藏系统导航栏）"
-//                                                             target2:self
-//                                                           selector2:@selector(gotoSmsControllerAndHiddenNavBar)];
-      
-      [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:3.0 complete:^(NSDictionary * _Nonnull resultDic) {
-          NSLog(@"获取LoginToken为后面授权页拉起加个速，加速结果：%@", resultDic);
-      }];
-//
-////      __weak typeof(self) weakSelf = self;
-////      UIViewController *viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-//      [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:5.0 complete:^(NSDictionary * _Nonnull resultDic) {
       [[TXCommonHandler sharedInstance] getLoginTokenWithTimeout:3.0
                                                       controller:_viewController
                                                            model:model
@@ -82,10 +66,11 @@
               NSLog(@"页面点击事件回调：%@", resultDic);
           } else if ([PNSCodeSuccess isEqualToString:resultCode]) {
               NSLog(@"获取LoginToken成功回调：%@", resultDic);
-              //NSString *token = [resultDic objectForKey:@"token"];
+              NSString *token = [resultDic objectForKey:@"token"];
               NSLog(@"接下来可以拿着Token去服务端换取手机号，有了手机号就可以登录，SDK提供服务到此结束");
               //[weakSelf dismissViewControllerAnimated:YES completion:nil];
               [[TXCommonHandler sharedInstance] cancelLoginVCAnimated:YES complete:nil];
+              result(token);
           } else {
               NSLog(@"获取LoginToken或拉起授权页失败回调：%@", resultDic);
           }
