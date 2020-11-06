@@ -2,13 +2,27 @@
 #import <ATAuthSDK/ATAuthSDK.h>
 #import "utils/PNSBuildModelUtils.h"
 
-@implementation FastPhoneLoginAliyunPlugin
+@implementation FastPhoneLoginAliyunPlugin{
+    FlutterResult _result;
+    NSDictionary *_arguments;
+    UIViewController *_viewController;
+}
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
       methodChannelWithName:@"fast_phone_login_aliyun"
             binaryMessenger:[registrar messenger]];
-  FastPhoneLoginAliyunPlugin* instance = [[FastPhoneLoginAliyunPlugin alloc] init];
+    UIViewController *viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    FastPhoneLoginAliyunPlugin* instance = [[FastPhoneLoginAliyunPlugin alloc] initWithViewController:viewController];
+//  FastPhoneLoginAliyunPlugin* instance = [[FastPhoneLoginAliyunPlugin alloc] init];
   [registrar addMethodCallDelegate:instance channel:channel];
+}
+
+- (instancetype)initWithViewController:(UIViewController *)viewController {
+    self = [super init];
+    if (self) {
+        _viewController = viewController;
+    }
+    return self;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
@@ -24,19 +38,39 @@
         NSLog(@"检查认证环境结果：%@", resultDic);
     }];
   } else  if ([@"getLoginToken" isEqualToString:call.method]) {
+      [[[TXCommonHandler sharedInstance] getReporter]setConsolePrintLoggerEnable:true];
       TXCustomModel *model = [PNSBuildModelUtils buildModelWithStyle:PNSBuildModelStyleSheetPortrait
-                                                        button1Title:@"短信登录（使用系统导航栏）"
-                                                             target1:self
-                                                           selector1:@selector(gotoSmsControllerAndShowNavBar)
-                                                        button2Title:@"短信登录（隐藏系统导航栏）"
-                                                             target2:self
-                                                           selector2:@selector(gotoSmsControllerAndHiddenNavBar)];
+                                                              button1Title:@"短信登录（使用系统导航栏）"
+                                                                   target1:self
+                                                                 selector1:@selector(gotoSmsControllerAndShowNavBar)
+                                                              button2Title:@"短信登录（隐藏系统导航栏）"
+                                                                   target2:self
+                                                                 selector2:@selector(gotoSmsControllerAndHiddenNavBar)];
+//      [[TXCommonHandler sharedInstance] debugLoginUIWithController:_viewController model:model complete:^(NSDictionary * _Nonnull resultDic) {
+//                NSLog(@"授权页拉起成功回调：%@", resultDic);
+//      }];
+//
+//
+//      TXCustomModel *model = [PNSBuildModelUtils buildModelWithStyle:PNSBuildModelStyleAlertPortrait
+//                                                        button1Title:@"短信登录（使用系统导航栏）"
+//                                                             target1:self
+//                                                           selector1:@selector(gotoSmsControllerAndShowNavBar)
+//                                                        button2Title:@"短信登录（隐藏系统导航栏）"
+//                                                             target2:self
+//                                                           selector2:@selector(gotoSmsControllerAndHiddenNavBar)];
       
-      __weak typeof(self) weakSelf = self;
+      [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:3.0 complete:^(NSDictionary * _Nonnull resultDic) {
+          NSLog(@"获取LoginToken为后面授权页拉起加个速，加速结果：%@", resultDic);
+      }];
+//
+////      __weak typeof(self) weakSelf = self;
+////      UIViewController *viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+//      [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:5.0 complete:^(NSDictionary * _Nonnull resultDic) {
       [[TXCommonHandler sharedInstance] getLoginTokenWithTimeout:3.0
-                                                      controller:self
+                                                      controller:_viewController
                                                            model:model
                                                         complete:^(NSDictionary * _Nonnull resultDic) {
+          NSLog(@"获取LoginToken或拉起授权页失败回调：%@", resultDic);
           NSString *resultCode = [resultDic objectForKey:@"resultCode"];
           if ([PNSCodeLoginControllerPresentSuccess isEqualToString:resultCode]) {
               NSLog(@"授权页拉起成功回调：%@", resultDic);
@@ -56,10 +90,33 @@
               NSLog(@"获取LoginToken或拉起授权页失败回调：%@", resultDic);
           }
       }];
-      result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+//      result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
     } else {
     result(FlutterMethodNotImplemented);
   }
+}
+
+- (void)gotoSmsControllerAndShowNavBar {
+    NSLog(@"拉起授权页面gotoSmsControllerAndShowNavBar");
+//    PNSSmsLoginController *controller = [[PNSSmsLoginController alloc] init];
+//    UIViewController *controller = [UIApplication sharedApplication].delegate.window.rootViewController;
+//    controller.isHiddenNavgationBar = NO;
+//    if (self.presentedViewController) {
+//        //找到授权页的导航控制器
+//        [(UINavigationController *)self.presentedViewController pushViewController:controller animated:YES];
+//    }
+}
+
+- (void)gotoSmsControllerAndHiddenNavBar {
+    NSLog(@"拉起授权页面gotoSmsControllerAndHiddenNavBar");
+//    PNSSmsLoginController *controller = [[PNSSmsLoginController alloc] init];
+//    controller.isHiddenNavgationBar = YES;
+//    if (self.presentedViewController) {
+//        //找到授权页的导航控制器
+//        [(UINavigationController *)self.presentedViewController pushViewController:controller animated:YES];
+//    }
+    
+    [[TXCommonHandler sharedInstance] cancelLoginVCAnimated:YES complete:nil];
 }
 
 @end

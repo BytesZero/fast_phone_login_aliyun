@@ -20,5 +20,5 @@ A new flutter plugin project.
   s.vendored_frameworks = 'ATAuthSDK.framework'
 
   # Flutter.framework does not contain a i386 slice.
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-lObjC','OTHER_LDFLAGS' => '-all_load','DEFINES_MODULE' => 'YES','EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
 end
